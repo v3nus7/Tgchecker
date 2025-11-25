@@ -7,6 +7,7 @@ A Python module for checking Telegram phone numbers using the IRBots API with 10
 - Easy to use Python module
 - Simple API key configuration
 - Phone number validation and cleaning
+- **Batch checking**: Check multiple numbers at once
 - Comprehensive error handling
 - Type hints for better IDE support
 
@@ -78,6 +79,35 @@ from telegram_checker import check_telegram_number
 result = check_telegram_number("+1234567890", "your_api_key_here")
 ```
 
+### Method 4: Check Multiple Numbers (Batch)
+
+```python
+from telegram_checker import TelegramChecker
+
+checker = TelegramChecker(api_key="your_api_key_here")
+
+# Check multiple numbers at once
+phone_list = ["+1234567890", "+0987654321", "+1122334455"]
+results = checker.check_numbers(phone_list)
+
+# Process results
+for result in results:
+    phone = result.get("phone")
+    if result.get("error"):
+        print(f"{phone}: Error - {result.get('error')}")
+    else:
+        print(f"{phone}: {result}")
+```
+
+### Method 5: Batch Check with Convenience Function
+
+```python
+from telegram_checker import check_telegram_numbers
+
+# Check multiple numbers in one line
+results = check_telegram_numbers(["+1234567890", "+0987654321"], "your_api_key_here")
+```
+
 ### Error Handling
 
 ```python
@@ -120,7 +150,8 @@ TelegramChecker(api_key: Optional[str] = None)
 | Method | Description |
 |--------|-------------|
 | `set_api_key(api_key: str)` | Set or update the API key |
-| `check_number(phone_number: str)` | Check a phone number on Telegram |
+| `check_number(phone_number: str)` | Check a single phone number on Telegram |
+| `check_numbers(phone_numbers: List[str])` | Check multiple phone numbers at once |
 | `is_configured()` | Check if API key is configured |
 
 ### Exceptions

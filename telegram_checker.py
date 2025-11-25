@@ -17,7 +17,7 @@ import urllib.parse
 import urllib.error
 import json
 import socket
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 
 class TelegramCheckerError(Exception):
@@ -140,6 +140,51 @@ class TelegramChecker:
         except socket.timeout:
             raise APIRequestError("Request timed out")
     
+    def check_numbers(self, phone_numbers: List[str]) -> List[Dict[str, Any]]:
+        """
+        Check multiple phone numbers on Telegram.
+        
+        Args:
+            phone_numbers: A list of phone numbers to check. Each should include
+                          country code (e.g., "+1234567890" or "1234567890").
+        
+        Returns:
+            A list of dictionaries containing the API response for each phone number.
+            Each result includes 'phone' key with the original number and either
+            the API response data or 'error' key if that specific number failed.
+        
+        Raises:
+            APIKeyError: If the API key is not set.
+            ValueError: If phone_numbers is not a list or is empty.
+        
+        Example:
+            >>> checker = TelegramChecker(api_key="your_key")
+            >>> results = checker.check_numbers(["+1234567890", "+0987654321"])
+            >>> for result in results:
+            ...     print(f"Phone: {result['phone']}, Status: {result.get('status')}")
+        """
+        if not isinstance(phone_numbers, list):
+            raise ValueError("phone_numbers must be a list")
+        
+        if not phone_numbers:
+            raise ValueError("phone_numbers list cannot be empty")
+        
+        if not self._api_key:
+            raise APIKeyError("API key is not set. Use set_api_key() or pass it to the constructor.")
+        
+        results = []
+        for phone_number in phone_numbers:
+            result = {"phone": phone_number}
+            try:
+                response = self.check_number(phone_number)
+                result.update(response)
+            except (APIRequestError, ValueError) as e:
+                result["error"] = str(e)
+                result["success"] = False
+            results.append(result)
+        
+        return results
+    
     def _clean_phone_number(self, phone_number: str) -> str:
         """
         Clean and validate a phone number.
@@ -204,3 +249,23 @@ def check_telegram_number(phone_number: str, api_key: str) -> Dict[str, Any]:
     """
     checker = TelegramChecker(api_key=api_key)
     return checker.check_number(phone_number)
+
+
+def check_telegram_numbers(phone_numbers: List[str], api_key: str) -> List[Dict[str, Any]]:
+    """
+    Convenience function to check multiple Telegram numbers without creating an instance.
+    
+    Args:
+        phone_numbers: A list of phone numbers to check.
+        api_key: Your API key for the IRBots service.
+    
+    Returns:
+        A list of dictionaries containing the API response for each number.
+    
+    Example:
+        >>> results = check_telegram_numbers(["+1234567890", "+0987654321"], "your_api_key")
+        >>> for result in results:
+        ...     print(result)
+    """
+    checker = TelegramChecker(api_key=api_key)
+    return checker.check_numbers(phone_numbers)
