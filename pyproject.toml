@@ -1,0 +1,18 @@
+[project]
+name = "telegram-number-checker"
+version = "0.1.0"
+description = "Telegram number checker client"
+authors = [{ name = "Javad" }]
+dependencies = ["httpx>=0.25"]
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://irbots.com/TG-Number-Analyzer/"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
