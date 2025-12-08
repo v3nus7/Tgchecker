@@ -81,7 +81,7 @@ asyncio.run(main())
 ```
 ## Authors
 
-- [@javadnr](https://github.com/javanr)
+- [@javadnr](https://github.com/javadnr)
 - [@v3nus7](https://github.com/v3nus7)
 ## License
 
