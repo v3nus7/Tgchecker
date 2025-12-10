@@ -2,7 +2,7 @@
 ![Logo](https://irbots.com/wp-content/uploads/2024/07/irbot-logo-e1752507899813.webp)
 
 
-# Telegram Checker
+# Telegram Number Checker(Analyze)
 
 ![Python Version](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
