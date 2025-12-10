@@ -16,25 +16,25 @@ This is a clean and minimal Python wrapper for the **irbots.com Telegram number 
 
 
 ```bash
-  pip install telegram_checker
+  pip install Tgchecker --upgrade
 ```
 
 ## Sync Example
 
 ```python
-from telegram_checker import TelegramChecker
+from Tgchecker import TgChecker
 
-client = TelegramChecker(api_key="YOUR_API_KEY")
+client = TgChecker(api_key="YOUR_API_KEY")
 result = client.check_sync(["+12345678901", "+989121234567"])
 print(result.data)
 ```
 ## Async Example
 ```python
 import asyncio
-from telegram_checker import TelegramChecker
+from Tgchecker import TgChecker
 
 async def main():
-    client = TelegramChecker(api_key="YOUR_API_KEY")
+    client = TgChecker(api_key="YOUR_API_KEY")
     result = await client.check_async(["+12345678901"])
     print(result.data)
 
